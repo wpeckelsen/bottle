@@ -2,6 +2,7 @@ package com.example.bottle.B.BusinessLogic.Models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,14 +17,22 @@ public class Label {
     private String material;
 
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "label")
-    Set<Bottle> bottles;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="bottle_idbottle")
+    private Bottle bottle;
 
 
 
 
 
+    public Bottle getBottle() {
+        return bottle;
+    }
+
+    public void setBottle(Bottle bottle) {
+        this.bottle = bottle;
+    }
 
     public Long getIdLabel() {
         return idLabel;
@@ -57,11 +66,5 @@ public class Label {
         this.material = material;
     }
 
-    public Set<Bottle> getBottles() {
-        return bottles;
-    }
 
-    public void setBottles(Set<Bottle> bottles) {
-        this.bottles = bottles;
-    }
 }

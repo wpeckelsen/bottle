@@ -1,5 +1,6 @@
 package com.example.bottle.B.BusinessLogic.dto.label;
 
+import com.example.bottle.B.BusinessLogic.Models.Bottle;
 import com.example.bottle.B.BusinessLogic.dto.bottle.CreatedBottle;
 
 public class CreatedLabel {
@@ -9,6 +10,24 @@ public class CreatedLabel {
     private String shape;
     private String color;
     private String material;
+//    private Bottle bottle;
+//    private CreatedBottle createdBottle;
+
+//    public CreatedBottle getCreatedBottle() {
+//        return createdBottle;
+//    }
+//
+//    public void setCreatedBottle(CreatedBottle createdBottle) {
+//        this.createdBottle = createdBottle;
+//    }
+
+//    public Bottle getBottle() {
+//        return bottle;
+//    }
+
+//    public void setBottle(Bottle bottle) {
+//        this.bottle = bottle;
+//    }
 
     public Long getIdLabel() {
         return idLabel;

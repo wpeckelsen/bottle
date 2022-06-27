@@ -1,15 +1,16 @@
 package com.example.bottle.A.controller.bottle;
+
 import com.example.bottle.B.BusinessLogic.Services.BottleService;
+import com.example.bottle.B.BusinessLogic.Services.LabelService;
 import com.example.bottle.B.BusinessLogic.dto.bottle.CreateBottle;
 import com.example.bottle.B.BusinessLogic.dto.bottle.CreatedBottle;
 import com.example.bottle.B.BusinessLogic.dto.label.CreateLabel;
 import com.example.bottle.B.BusinessLogic.dto.label.CreatedLabel;
-import com.example.bottle.B.BusinessLogic.Services.LabelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -27,37 +28,57 @@ public class BottleController {
 
 
     @GetMapping("bottle/test")
-    public ResponseEntity<String> helloBottle(){
+    public ResponseEntity<String> helloBottle() {
         String beerBottle = "bottle says: successful get request!";
         return ResponseEntity.ok().body(beerBottle);
     }
 
     @PostMapping("bottle/new")
-    public ResponseEntity<CreatedBottle> createBottle(@RequestBody CreateBottle createBottle){
+    public ResponseEntity<CreatedBottle> createBottle(@RequestBody CreateBottle createBottle) {
         final CreatedBottle createdBottle = bottleService.addBottle(createBottle);
         return ResponseEntity.ok(createdBottle);
     }
 
-    @GetMapping("bottle/list")
-    public ResponseEntity<List<CreatedBottle>> getAllBottles(@RequestParam(value = "name", required = false) Optional<String> name){
-        List<CreatedBottle> createdBottleList;
 
-        if(name.isEmpty()){
-            createdBottleList = bottleService.getAllBottles();
-        } else {
-            createdBottleList = bottleService.getAllBottlesByBrandName(name.get());
-        }
-        return ResponseEntity.ok().body(createdBottleList);
+
+//    @GetMapping("bottle/list")
+//    public ResponseEntity<List<CreatedBottle>> getAllBottles(@RequestParam(value = "name", required = false) Optional<String> name){
+//        List<CreatedBottle> createdBottleList;
+//
+//        if(name.isEmpty()){
+//            createdBottleList = bottleService.getAllBottles();
+//        } else {
+//            createdBottleList = bottleService.getAllBottlesByBrandName(name.get());
+//        }
+//        return ResponseEntity.ok().body(createdBottleList);
+//    }
+
+    @GetMapping("bottle/list")
+    public ResponseEntity<List<CreatedBottle>> getAllBottles() {
+//        List<CreatedBottle> createdBottleList;
+//        createdBottleList = bottleService.getAllBottles();
+        return ResponseEntity.ok().body(bottleService.getAllBottles());
+    }
+
+    @GetMapping("label/list")
+    public ResponseEntity<List<CreatedLabel>> getAllLabels(){
+        return ResponseEntity.ok().body(labelService.getAllLabels());
+    }
+
+    @GetMapping("label/list/{idLabel}")
+    public ResponseEntity<CreatedLabel> getLabelByID(@PathVariable("idLabel") Long idLabel) {
+        CreatedLabel label = labelService.getLabelByID(idLabel);
+        return ResponseEntity.ok().body(label);
     }
 
     @PutMapping("bottle/list/update/{id}")
-    public ResponseEntity<Object> updateBottle(@PathVariable Long ID, @RequestBody CreateBottle createBottle){
+    public ResponseEntity<Object> updateBottle(@PathVariable Long ID, @RequestBody CreateBottle createBottle) {
         CreatedBottle createdBottle = bottleService.updateBottle(ID, createBottle);
         return ResponseEntity.ok().body(createdBottle);
     }
 
     @DeleteMapping("bottle/delete/{id}")
-    public  ResponseEntity<Object> deleteBottle(@PathVariable Long ID){
+    public ResponseEntity<Object> deleteBottle(@PathVariable Long ID) {
         bottleService.deleteBottle(ID);
 
         return ResponseEntity.noContent().build();
@@ -67,21 +88,22 @@ public class BottleController {
 //    labels/////////////////////////////////////////////
 
     @PostMapping("label/new")
-    public ResponseEntity<CreatedLabel> createLabel(@RequestBody CreateLabel createLabel){
+    public ResponseEntity<CreatedLabel> createLabel(@RequestBody CreateLabel createLabel) {
         final CreatedLabel createdLabel = labelService.addLabel(createLabel);
         return ResponseEntity.ok(createdLabel);
     }
 
-    @GetMapping("label/list/{idLabel}")
-    public ResponseEntity<CreatedLabel> getLabelByID(@PathVariable("idLabel") Long idLabel){
-        CreatedLabel label = labelService.getLabelByID(idLabel);
-        return ResponseEntity.ok().body(label);
+
+    @PutMapping("glued/bottle/{idBottle}/label/{idLabel}")
+    public ResponseEntity<CreatedLabel> stickLabelToBottle(@PathVariable Long idBottle,
+                                                            @PathVariable Long idLabel) {
+        return ResponseEntity.ok().body(labelService.stickLabelsToBottle(idBottle, idLabel));
     }
 
-
-    @PutMapping("glued/{idBottle}/{idLabel}")
-    public ResponseEntity<CreatedBottle> stickLabelToBottle(@PathVariable Long idBottle, @PathVariable Long idLabel) {
-        return ResponseEntity.ok().body(bottleService.stickLabelsToBottle(idBottle, idLabel));
+    @PutMapping("assign/bottle/{idBottle}/label/{shape}")
+    public ResponseEntity<CreatedBottle> assign(@PathVariable Long idBottle,
+                                                String shape){
+        return ResponseEntity.ok().body(labelService.stickCreatedLabelstoBottle(shape, idBottle));
     }
 
 }

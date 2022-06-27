@@ -1,10 +1,12 @@
 package com.example.bottle.B.BusinessLogic.Models;
 
 
+import com.example.bottle.B.BusinessLogic.dto.label.CreatedLabel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Bottle {
@@ -30,21 +32,37 @@ public class Bottle {
 
 
 
+    @OneToMany(mappedBy = "bottle")
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "label_idLabel")
-    private Label label;
+    List<Label> labels;
+
+
+
+
+
 
 
     public Bottle() {};
 
-
-    public Label getLabel() {
-        return label;
+    public Bottle(Long idBottle, String name, String color, String factoryCode, int milliliters, int produced, int alcoholPercentage, String factory, LocalDate productionTime, List<Label> labels) {
+        this.idBottle = idBottle;
+        this.name = name;
+        this.color = color;
+        this.factoryCode = factoryCode;
+        this.milliliters = milliliters;
+        this.produced = produced;
+        this.alcoholPercentage = alcoholPercentage;
+        this.factory = factory;
+        this.productionTime = productionTime;
+        this.labels = labels;
     }
 
-    public void setLabel(Label label) {
-        this.label = label;
+    public List<Label> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
     }
 
     public Long getIdBottle() {
@@ -118,4 +136,15 @@ public class Bottle {
     public void setProduced(int produced) {
         this.produced = produced;
     }
+
+//    @OneToMany(mappedBy = "bottle")
+//    private Collection<Label> label;
+//
+//    public Collection<Label> getLabel() {
+//        return label;
+//    }
+//
+//    public void setLabel(Collection<Label> label) {
+//        this.label = label;
+//    }
 }

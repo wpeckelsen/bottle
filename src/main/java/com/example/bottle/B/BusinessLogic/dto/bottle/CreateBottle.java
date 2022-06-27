@@ -21,15 +21,7 @@ public class CreateBottle {
 
     private LocalDate productionTime;
 
-    public CreateBottle(String name, String color, String factory, int milliliters, int produced, int alcoholPercentage, LocalDate productionTime) {
-        this.name = name;
-        this.color = color;
-        this.factory = factory;
-        this.milliliters = milliliters;
-        this.produced = produced;
-        this.alcoholPercentage = alcoholPercentage;
-        this.productionTime = productionTime;
-    }
+
 
     public String getFactory() {
         return factory;
