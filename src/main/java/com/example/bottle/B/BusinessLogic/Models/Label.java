@@ -18,7 +18,7 @@ public class Label {
 
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name="bottle_idbottle")
     private Bottle bottle;
 

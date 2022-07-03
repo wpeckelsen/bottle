@@ -194,32 +194,20 @@ public class BottleService {
 
         List<CreatedLabel> createdLabelList = new ArrayList<>();
 
-        for(Label label : labels){
-
-            CreatedLabel createdLabel = labelTransfer.labelDtoMaker(label);
-            createdLabelList.add(createdLabel);
+        if (labels != null){
+            for(Label label : labels){
+                CreatedLabel createdlabel = labelTransfer.labelDtoMaker(label);
+                createdLabelList.add(createdlabel);
+            }
         }
 
+        bottle.getLabels();
         createdBottle.setLabels(createdLabelList);
 
 
         return createdBottle;
     }
 
-//            if(bottle.getLabels() != null){
-////            createdBottle.setLabels(LabelService.labelDtoMaker(bottle.getLabels()));
-////        }
-////
-//////            dto.setCiModuleDto(television.getCiModule());
-////
-//////             if(television.getCiModule() != null){
-//////            dto.setCiModuleDto(CIModuleService.transferToDto(television.getCiModule()));
-//////        }
-////
-////        {
-////
-////            return createdBottle;
-////        }
 
     //    transfer to bottle
     public Bottle bottleMaker(CreateBottle createbottle) {

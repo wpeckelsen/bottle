@@ -32,8 +32,7 @@ public class Bottle {
 
 
 
-    @OneToMany(mappedBy = "bottle")
-    @JsonIgnore
+    @OneToMany(mappedBy = "bottle", fetch = FetchType.EAGER)
     List<Label> labels;
 
 
@@ -137,14 +136,5 @@ public class Bottle {
         this.produced = produced;
     }
 
-//    @OneToMany(mappedBy = "bottle")
-//    private Collection<Label> label;
-//
-//    public Collection<Label> getLabel() {
-//        return label;
-//    }
-//
-//    public void setLabel(Collection<Label> label) {
-//        this.label = label;
-//    }
+
 }

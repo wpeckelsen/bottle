@@ -65,6 +65,8 @@ public class BottleController {
         return ResponseEntity.ok().body(labelService.getAllLabels());
     }
 
+
+
     @GetMapping("label/list/{idLabel}")
     public ResponseEntity<CreatedLabel> getLabelByID(@PathVariable("idLabel") Long idLabel) {
         CreatedLabel label = labelService.getLabelByID(idLabel);
@@ -100,10 +102,12 @@ public class BottleController {
         return ResponseEntity.ok().body(labelService.stickLabelsToBottle(idBottle, idLabel));
     }
 
-    @PutMapping("assign/bottle/{idBottle}/label/{shape}")
+    @PutMapping("assign/bottle/{idBottle}/label/{idLabel}")
     public ResponseEntity<CreatedBottle> assign(@PathVariable Long idBottle,
-                                                String shape){
-        return ResponseEntity.ok().body(labelService.stickCreatedLabelstoBottle(shape, idBottle));
+                                                @PathVariable Long idLabel){
+        return ResponseEntity.ok().body(labelService.sticky(idLabel, idBottle));
     }
+
+
 
 }

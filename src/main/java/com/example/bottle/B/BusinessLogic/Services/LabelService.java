@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LabelService {
@@ -65,27 +66,43 @@ public class LabelService {
 
     }
 
-
-
-
-
-
-    public CreatedBottle stickCreatedLabelstoBottle(String shape, Long idBottle) {
+    public CreatedBottle sticky(Long idLabel, Long idBottle) {
         var optionalBottle = bottleRepo.findById(idBottle);
         var bottle = optionalBottle.get();
 
-        Label newLabel = labelRepo.findLabelByShape(shape);
+        Optional<Label> newLabel = labelRepo.findById(idLabel);
+        Label label = newLabel.get();
+
+        List<Label> oldLabels = bottle.getLabels();
+        oldLabels.add(label);
+
+        for (Label label1 : oldLabels){
+            label1.setBottle(bottle);
+            labelRepo.save(label1);
+        }
+        bottle.setLabels(oldLabels);
+        bottleRepo.save(bottle);
+        return bottleService.bottleDtoMaker(bottle);
+    }
+
+    public CreatedBottle stickCreatedLabelstoBottle(Long idLabel, Long idBottle) {
+        var optionalBottle = bottleRepo.findById(idBottle);
+        var bottle = optionalBottle.get();
+        var label = labelRepo.findById(idLabel);
+        var newlabel = label.get();
 
         List<Label> oldLabels = bottle.getLabels();
 
-        oldLabels.add(newLabel);
+        oldLabels.add(newlabel);
+//        for loop
+
+
+//
 
         bottle.setLabels(oldLabels);
         bottleRepo.save(bottle);
 
         return bottleService.bottleDtoMaker(bottle);
-
-
     }
 
 
