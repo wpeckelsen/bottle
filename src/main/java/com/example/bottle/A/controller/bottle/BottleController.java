@@ -27,11 +27,7 @@ public class BottleController {
     }
 
 
-//    @GetMapping("bottle/test")
-//    public ResponseEntity<String> helloBottle() {
-//        String beerBottle = "bottle says: successful get request!";
-//        return ResponseEntity.ok().body(beerBottle);
-//    }
+
 
     @PostMapping("bottle/new")
     public ResponseEntity<CreatedBottle> createBottle(@RequestBody CreateBottle createBottle) {
